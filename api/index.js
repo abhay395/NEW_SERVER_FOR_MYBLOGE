@@ -14,7 +14,7 @@ const serverless = require('serverless-http')
 const cors = require("cors");
 
 // const path = require("path");
-const { connectDb } = require("./db/connectdb");
+const { connectDb } = require("../db/connectdb");
 
 // TODO: cors setup
 app.use(
