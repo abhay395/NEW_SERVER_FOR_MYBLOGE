@@ -2,12 +2,12 @@ const express = require("express");
 // require('express-async-errors')
 require("dotenv").config();
 const app = express();
-const authRouter = require("./routes/Auth.routes");
-const {errorHandlerMiddleware} = require('./middleware/error-handler.js')
-const userRouter = require("./routes/User.routes");
-const contactRouter = require("./routes/Contact.routes");
-const commentRouter = require("./routes/Comment.routes");
-const blogRouter = require("./routes/Bloge.routes");
+const authRouter = require("../routes/Auth.routes");
+const {errorHandlerMiddleware} = require('../middleware/error-handler.js')
+const userRouter = require("../routes/User.routes");
+const contactRouter = require("../routes/Contact.routes");
+const commentRouter = require("../routes/Comment.routes");
+const blogRouter = require("../routes/Bloge.routes");
 const MongoStore = require('connect-mongo');
 const session = require('express-session')
 const serverless = require('serverless-http')
