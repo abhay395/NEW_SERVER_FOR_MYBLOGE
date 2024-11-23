@@ -17,9 +17,9 @@ const cors = require("cors");
 const { connectDb } = require("../db/connectdb");
 
 // TODO: cors setup
-app.use(
-  cors()
-);
+app.use(cors({
+  origin: 'http://localhost:5173', // Replace with your frontend URL
+}));
 app.use(
   session({
     secret: process.env.SESSION_SECRET || 'secret', // Use a secure secret in production
