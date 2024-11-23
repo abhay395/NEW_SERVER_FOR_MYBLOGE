@@ -13,7 +13,6 @@ exports.createBlog = asyncWrapper(
         throw new BadRequest(`${key} is required`);
       }
     }
-
     // console.log(response)
     // console.log('title',req.body)
     console.log(req.user)
