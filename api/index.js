@@ -17,13 +17,23 @@ const cors = require("cors");
 const { connectDb } = require("../db/connectdb");
 
 // TODO: cors setup
-app.use(
-  cors({
-    origin: "http://localhost:5173", // Replace with your frontend URL
-    methods: ["GET", "POST", "PUT", "DELETE"], // Allow specific HTTP methods
-    credentials: true, // Allow cookies if required
-  })
-);
+const allowedOrigins = ['http://localhost:5173', 'https://hurt-feeling.surge.sh/'];
+app.use(cors({
+    origin: (origin, callback) => {
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    }
+}));
+// app.use(
+//   cors({
+//     origin: "http://localhost:5173", // Replace with your frontend URL
+//     methods: ["GET", "POST", "PUT", "DELETE"], // Allow specific HTTP methods
+//     credentials: true, // Allow cookies if required
+//   })
+// );
 app.use(
   session({
     secret: process.env.SESSION_SECRET || "secret", // Use a secure secret in production
