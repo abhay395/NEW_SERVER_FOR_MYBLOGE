@@ -63,3 +63,12 @@ exports.featchBlogeById = async (req, res) => {
     return res.status(400).json({ error: error.message });
   }
 };
+exports.deletBlogeById = asyncWrapper(async (req, res) => {
+ 
+    const id = req.params.id
+    const bloge = await Bloge.findByIdAndDelete(id)
+    return res.status(200).json({ bloge ,message:"Bloge deleted sucessfully"});
+    // const bloge = await result.populate("userId")
+    // // console.log(bloge)
+    // return res.status(200).json({ bloge })
+});
