@@ -1,5 +1,5 @@
 const express = require("express");
-const { createBlog, featchBloges, featchBlogeById } = require("../controller/Bloge.controller");
+const { createBlog, featchBloges, featchBlogeById, deletBlogeById } = require("../controller/Bloge.controller");
 const { authenticationMiddleware } = require("../middleware/auth");
 const { upload } = require("../middleware/multer.middlewares");
 const { ImageUpload } = require("../controller/uploadImage.controller");

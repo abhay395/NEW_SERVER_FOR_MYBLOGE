@@ -67,7 +67,7 @@ exports.deletBlogeById = asyncWrapper(async (req, res) => {
  
     const id = req.params.id
     const bloge = await Bloge.findByIdAndDelete(id)
-    return res.status(200).json({ bloge ,message:"Bloge deleted sucessfully"});
+    return res.status(200).json({ bloge ,message:"Bloge deleted"});
     // const bloge = await result.populate("userId")
     // // console.log(bloge)
     // return res.status(200).json({ bloge })
