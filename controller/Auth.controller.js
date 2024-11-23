@@ -66,7 +66,7 @@ exports.LoginUser = asyncWrapper(async(req, res) => {
     message: "User succesfully loged in",
     token,
     user: {
-      id: user._id,
+      _id: user._id,
       email: user.email,
       username: user.name,
     },
