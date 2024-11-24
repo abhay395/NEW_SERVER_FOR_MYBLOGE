@@ -19,7 +19,7 @@ const { connectDb } = require("../db/connectdb");
 // TODO: cors setup
 const corsOptions = {
   origin: "http://localhost:5173", // Allow only this origin
-  methods: ["GET", "POST", "PUT", "DELETE"], // Allowed methods
+  methods: ["GET", "POST", "PUT", "DELETE","PATCH"], // Allowed methods
   credentials: true, // Allow cookies and headers like Authorization
 };
 app.use(cors(corsOptions));
