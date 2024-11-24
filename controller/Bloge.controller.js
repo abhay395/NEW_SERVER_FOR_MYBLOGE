@@ -34,7 +34,7 @@ exports.createBlog = asyncWrapper(
 );
 exports.featchBloges = async (req, res) => {
   try {
-    let bloge = Bloge.find({}).sort("createdAt");
+    let bloge = Bloge.find({}).sort({ createdAt: -1 });
     let totalbloge = Bloge.find({});
     const totalDocs = await totalbloge.count();
     // const bloge = await result.populate("userId")
