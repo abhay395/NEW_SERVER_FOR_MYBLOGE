@@ -62,6 +62,16 @@ exports.featchBlogeById = async (req, res) => {
     return res.status(400).json({ error: error.message });
   }
 };
+exports.updateBlogeById = async (req, res) => {
+  try {
+    const {title,description,url,category} = req.body
+    const bloge = await Bloge.findByIdAndUpdate(req.params.id,{title,description,url,category});
+
+    return res.status(200).json({ bloge });
+  } catch (error) {
+    return res.status(400).json({ error: error.message });
+  }
+};
 exports.deletBlogeById = asyncWrapper(async (req, res) => {
  
     const id = req.params.id
