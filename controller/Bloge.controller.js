@@ -34,7 +34,7 @@ exports.createBlog = asyncWrapper(
 );
 exports.featchBloges = async (req, res) => {
   try {
-    let bloge = Bloge.find({});
+    let bloge = Bloge.find({}).sort("createdAt");
     let totalbloge = Bloge.find({});
     const totalDocs = await totalbloge.count();
     // const bloge = await result.populate("userId")
@@ -65,7 +65,7 @@ exports.featchBlogeById = async (req, res) => {
 exports.updateBlogeById = async (req, res) => {
   try {
     const {title,description,url,category} = req.body
-    const bloge = await Bloge.findByIdAndUpdate(req.params.id,{title,description,url,category},{new:true}).populate('userId');
+    const bloge = await Bloge.findByIdAndUpdate(req.params.id,{title,description,url,category},{new:true}).populate("userId");
 
     return res.status(200).json({ bloge });
   } catch (error) {
