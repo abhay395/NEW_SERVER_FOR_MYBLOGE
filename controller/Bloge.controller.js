@@ -65,7 +65,7 @@ exports.featchBlogeById = async (req, res) => {
 exports.updateBlogeById = async (req, res) => {
   try {
     const {title,description,url,category} = req.body
-    const bloge = await Bloge.findByIdAndUpdate(req.params.id,{title,description,url,category},{new:true});
+    const bloge = await Bloge.findByIdAndUpdate(req.params.id,{title,description,url,category},{new:true}).populate('userId');
 
     return res.status(200).json({ bloge });
   } catch (error) {
