@@ -16,7 +16,7 @@ const cors = require("cors");
 const { connectDb } = require("../db/connectdb");
 
 // TODO: cors setup
-var whitelist = ['https://warlike-ring.surge.sh'];
+var whitelist = ['https://warlike-ring.surge.sh',"http://localhost:5173/"];
 var corsOptions = {
   origin: function(origin, callback){
     var originIsWhitelisted = whitelist.indexOf(origin) !== -1;
