@@ -13,17 +13,23 @@ const session = require("express-session");
 const serverless = require("serverless-http");
 const cors = require("cors");
 
-// const path = require("path");
 const { connectDb } = require("../db/connectdb");
 
 // TODO: cors setup
-const corsOptions = {
-  origin: "https://warlike-ring.surge.sh", // Allow only this origin
-  methods: ["GET", "POST", "PUT", "DELETE","PATCH"], // Allowed methods
-  credentials: true, // Allow cookies and headers like Authorization
+var whitelist = ['https://warlike-ring.surge.sh'];
+var corsOptions = {
+  origin: function(origin, callback){
+    var originIsWhitelisted = whitelist.indexOf(origin) !== -1;
+    callback(null, originIsWhitelisted);
+  }
 };
+// const corsOptions = {
+//   origin: "https://warlike-ring.surge.sh", // Allow only this origin
+//   methods: ["GET", "POST", "PUT", "DELETE","PATCH"], // Allowed methods
+//   credentials: true, // Allow cookies and headers like Authorization
+// };
 app.use(cors(corsOptions));
-app.options("*", cors(corsOptions));
+// app.options("*", cors(corsOptions));
 // app.use(
 //   cors({
 //     origin: "http://localhost:5173", // Replace with your frontend URL
