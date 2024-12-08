@@ -31,22 +31,22 @@ app.options("*", cors(corsOptions));
 //     credentials: true, // Allow cookies if required
 //   })
 // );
-// app.use(
-//   session({
-//     secret: process.env.SESSION_SECRET || "secret", // Use a secure secret in production
-//     resave: false,
-//     saveUninitialized: false,
-//     store: MongoStore.create({
-//       mongoUrl: process.env.MONGODB_URL, // MongoDB connection string
-//       ttl: 14 * 24 * 60 * 60, // Sessions expire after 14 days
-//     }),
-//     cookie: {
-//       maxAge: 14 * 24 * 60 * 60 * 1000, // Cookie expiration time
-//       secure: process.env.NODE_ENV === "production", // Set this to true if using HTTPS
-//       httpOnly: true,
-//     },
-//   })
-// );
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET || "secret", // Use a secure secret in production
+    resave: false,
+    saveUninitialized: false,
+    store: MongoStore.create({
+      mongoUrl: process.env.MONGODB_URL, // MongoDB connection string
+      ttl: 14 * 24 * 60 * 60, // Sessions expire after 14 days
+    }),
+    cookie: {
+      maxAge: 14 * 24 * 60 * 60 * 1000, // Cookie expiration time
+      secure: process.env.NODE_ENV === "production", // Set this to true if using HTTPS
+      httpOnly: true,
+    },
+  })
+);
 
 // TODO: body parser
 app.use(express.json());
