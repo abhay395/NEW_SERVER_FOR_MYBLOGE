@@ -28,7 +28,7 @@ var corsOptions = {
 //   methods: ["GET", "POST", "PUT", "DELETE","PATCH"], // Allowed methods
 //   credentials: true, // Allow cookies and headers like Authorization
 // };
-app.use(cors(corsOptions));
+app.use(cors());
 // app.options("*", cors(corsOptions));
 // app.use(
 //   cors({
