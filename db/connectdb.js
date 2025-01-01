@@ -10,7 +10,6 @@ async function connectDb() {
   } catch (error) {
     console.log(error);
   }
-
 }
 
 exports.connectDb = connectDb;
