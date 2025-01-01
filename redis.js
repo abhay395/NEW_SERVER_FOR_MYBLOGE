@@ -7,9 +7,7 @@ const redis = new Redis({
   host: process.env.REDIS_HOST, // Redis server host
   port: process.env.REDIS_PORT,        // Redis server port
   password: process.env.REDIS_PASSWORD,      // Use password if required
-  retryStrategy: (times) => {
-    return Math.min(times * 50, 2000); // Retry delay
-  },
+  tls:{}
 });
 
 redis.on('connect', () => {
