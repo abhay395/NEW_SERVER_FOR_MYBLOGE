@@ -1,6 +1,6 @@
 const { use } = require("passport");
 const { Comment } = require("../models/Comment.model");
-exports.getPostComment = async (req, res) => {
+exports.getPostComment = async (req, res,next) => {
     const {id} = req.params
   
   try {

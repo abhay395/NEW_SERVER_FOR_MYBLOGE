@@ -9,7 +9,7 @@ router.post("/create",authenticationMiddleware,createBlog)
 .post('/upload',upload.single('image'),ImageUpload)
 .get('/all',featchBloges)
 .get('/:id',featchBlogeById)
-.patch('/:id',updateBlogeById)
-.delete('/:id',deletBlogeById)
+.patch('/:id',authenticationMiddleware,updateBlogeById)
+.delete('/:id',authenticationMiddleware,deletBlogeById)
 
 exports.router = router;
