@@ -11,7 +11,7 @@ const createToken = (user) => {
     { _id: user._id, email: user.email, name: user.name },
     JWT_SECRET,
     {
-      expiresIn: "12h",
+      expiresIn: "1y",
     }
   );
 };
