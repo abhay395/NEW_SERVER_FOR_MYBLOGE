@@ -28,7 +28,9 @@ var corsOptions = {
 //   methods: ["GET", "POST", "PUT", "DELETE","PATCH"], // Allowed methods
 //   credentials: true, // Allow cookies and headers like Authorization
 // };
-app.use(cors());
+app.use(cors({
+  origin: "https://my-bloge.netlify.app/"
+}));
 // app.options("*", cors(corsOptions));
 // app.use(
 //   cors({
