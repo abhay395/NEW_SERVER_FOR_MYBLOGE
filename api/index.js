@@ -29,7 +29,7 @@ var corsOptions = {
 //   credentials: true, // Allow cookies and headers like Authorization
 // };
 app.use(cors({
-  origin: "https://my-bloge.netlify.app"
+  origin: ["https://my-bloge.netlify.app", "http://localhost:5173"]
 }));
 // app.options("*", cors(corsOptions));
 // app.use(
