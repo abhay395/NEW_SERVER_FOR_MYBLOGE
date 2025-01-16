@@ -104,4 +104,3 @@ exports.logout = asyncWrapper(async(req, res) => {
  exports.checkUser = asyncWrapper(async (req, res) => {
   res.status(200).json(req.user)
 });
-
