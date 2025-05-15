@@ -15,24 +15,11 @@ import BlogeController from "../controller/Bloge.controller.js";
 const router = express.Router();
 
 router
-  .post(
-    "/create",
-    upload.single("image"),
-    authenticationMiddleware,
-    asyncWrapper(BlogeController.createBlog)
-  )
+  .post("/create",upload.single("image"),authenticationMiddleware,asyncWrapper(BlogeController.createBlog))
   // .post('/upload', upload.single('image'), ImageUpload)
   .get("/all", asyncWrapper(BlogeController.featchBloges))
   .get("/:id", asyncWrapper(BlogeController.featchBlogeById))
-  .patch(
-    "/:id",
-    authenticationMiddleware,
-    asyncWrapper(BlogeController.updateBlogeById)
-  )
-  .delete(
-    "/:id",
-    authenticationMiddleware,
-    asyncWrapper(BlogeController.deleteBlogeById)
-  );
+  .patch("/:id",upload.single("image"),authenticationMiddleware,asyncWrapper(BlogeController.updateBlogeById))
+  .delete("/:id",authenticationMiddleware,asyncWrapper(BlogeController.deleteBlogeById))
 
 export default router;

@@ -43,7 +43,7 @@ export default {
       throw error;
     }
   },
-  updateBlogeById: async (data, id) => {//! Work pending
+  updateBlogeById: async (data, id) => {
     try {
       const blog = await Bloge.findByIdAndUpdate(id, data, { new: true });
       return await blog.populate("userId");
@@ -56,7 +56,7 @@ export default {
       const blog = await Bloge.findByIdAndDelete(id);
       return blog;
     } catch (error) {
-      throw new CustomAPIError(400, error.message);
+      throw error;
     }
   }
 };

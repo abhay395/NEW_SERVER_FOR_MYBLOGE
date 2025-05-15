@@ -21,8 +21,13 @@ export default {
     },
     updateUser:async (data,id)=>{
         try {
-            
-            const result = await User.updateOne({ _id: id }, data);
+            const updateData = {};
+            for (const key in data) {
+                if (data.hasOwnProperty(key)) {
+                    updateData[key] = data[key];
+                }
+            }
+            const result = await User.findByIdAndUpdate(id, updateData, { new: true });
             return result;
         } catch (error) {
             throw error;

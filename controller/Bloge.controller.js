@@ -1,4 +1,5 @@
 import BlogeService from "../service/Bloge.service.js";
+import uploadToCloudinary from "../utils/cludinary.js";
 import { sendSuccessMessage } from "../utils/helper.js";
 import { pick } from "../utils/pick.js";
 
@@ -19,7 +20,20 @@ export default {
     sendSuccessMessage(res, 200, "Bloge fetched successfully", result);
   },
   updateBlogeById: async (req, res) => {
-    const result = await BlogeService.updateBlogeById(req.body, req.params.id);
+    const data = {
+      title: req.body.title,
+      description: req.body.description,
+      category: req.body.category,
+    }
+    if(req.file){
+      const urlObje = await uploadToCloudinary({
+        file: req.file,
+        folder: 'uploads',
+        resource_type: 'auto', // image, video, raw, or auto
+      });
+      data.url = urlObje.secure_url
+    }
+    const result = await BlogeService.updateBlogeById(data, req.params.id);
     sendSuccessMessage(res, 200, "Bloge updated successfully", result);
   },
   deleteBlogeById: async (req, res) => {

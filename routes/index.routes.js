@@ -3,6 +3,7 @@ import userRoute from './User.routes.js';
 import blogRoute from './Bloge.routes.js';
 import commentRoute from './Comment.routes.js';
 import express from 'express'
+import contactRoute from './Contact.routes.js';
 
 const router = express.Router();
 const routes = [
@@ -18,10 +19,10 @@ const routes = [
         path: '/bloge',
         route: blogRoute
     },
-    // {
-    //     path: '/contact',
-    //     route: contactRoute
-    // },
+    {
+        path: '/contact',
+        route: contactRoute
+    },
     {
         path: '/comment',
         route: commentRoute

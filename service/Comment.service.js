@@ -18,7 +18,7 @@ export default {
         await result.populate("userId")
         return result
     },
-    likeAndDislike: async (commentId, data) => {//! Pending Worked 
+    likeAndDislike: async (commentId, data) => { 
         const { userId, isLike } = data;
         const comment = await Comment.findById(commentId);
         

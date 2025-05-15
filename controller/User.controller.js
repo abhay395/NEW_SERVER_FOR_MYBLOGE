@@ -3,6 +3,7 @@
 // import Blog from "../models/Blog.model.js";
 // import redis from '../redis.js';
 import UserService from "../service/User.service.js";
+import uploadToCloudinary from "../utils/cludinary.js";
 import { sendSuccessMessage } from "../utils/helper.js";
 import { pick } from "../utils/pick.js";
 
@@ -19,11 +20,22 @@ export default {
     sendSuccessMessage(res, 200, "User Bloge fetched successfully", result);
   },
   updateUser: async (req, res) => {
-    const result = await UserService.updateUser(req.body, req.params.id);
+    const data = {
+      ...req.body
+    }
+    if(req.file){
+      const urlObje = await uploadToCloudinary({
+        file: req.file,
+        folder: 'uploads',
+        resource_type: 'auto', // image, video, raw, or auto
+      });
+      data.image = urlObje.secure_url
+    }
+    const result = await UserService.updateUser(data, req.user._id);
     sendSuccessMessage(res, 200, "User updated successfully", result);
   },
   deleteUser: async (req, res) => {
-    const result = await UserService.deleteUser(req.params.id);
+    const result = await UserService.deleteUser(req.user._id);
     sendSuccessMessage(res, 200, "User deleted successfully", result);
   },
 };
