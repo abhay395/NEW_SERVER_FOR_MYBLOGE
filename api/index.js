@@ -35,6 +35,7 @@ app.use(
 app.use(cors());
 // Body parser
 app.use(express.json());
+app.get("/", (req, res) => res.send("Hello world"));
 app.use('/api',router)
 app.use(errorHandlerMiddleware);
 
