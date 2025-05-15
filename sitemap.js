@@ -1,7 +1,7 @@
-const sitemap = require('sitemap');
-const fs = require('fs');
+import { createSitemap } from 'sitemap';
+import { writeFileSync } from 'fs';
 
-const sm = sitemap.createSitemap({
+const sm = createSitemap({
   hostname: 'https://my-bloge.netlify.app', // Replace with your actual Netlify domain or custom domain
   urls: [
     { url: '/', changefreq: 'daily', priority: 1.0 },
@@ -10,5 +10,4 @@ const sm = sitemap.createSitemap({
   ],
 });
 
-// Write the sitemap to the public folder
-fs.writeFileSync('./public/sitemap.xml', sm.toString());
+writeFileSync('./public/sitemap.xml', sm.toString());

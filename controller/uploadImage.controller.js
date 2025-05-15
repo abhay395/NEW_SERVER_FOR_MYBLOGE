@@ -1,7 +1,7 @@
-const asyncWrapper = require("../middleware/async");
-const { uploadOncloudinary } = require("../utils/cludinary");
+import asyncWrapper from "../middleware/async.js";
+import { uploadOncloudinary } from "../utils/cludinary.js";
 
-exports.ImageUpload = asyncWrapper(async (req, res) => {
+export const ImageUpload = asyncWrapper(async (req, res) => {
   if (!req.file) {
     throw new BadRequest(`image is required`);
   }

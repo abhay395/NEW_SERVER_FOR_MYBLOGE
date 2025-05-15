@@ -1,22 +1,27 @@
-const UnauthenticatedError  = require("../errors/unauthenticated");
-const jwt = require('jsonwebtoken')
-const JWT_SECRET = process.env.JWT_SECRET ||"Your Secret Secret Key"
-const authenticationMiddleware = async(req,res,next)=>{
-    // console.log(req.headers)
-   try {
-    const token = req.headers['authorization']
-    if(!token){
-      res.status(401).json({error:"Access Denied. No token provided"})
+import UnauthenticatedError from "../errors/unauthenticated.js";
+import jwt from "jsonwebtoken";
+const JWT_SECRET = process.env.JWT_SECRET || "Your Secret Secret Key";
+const authenticationMiddleware = async (req, res, next) => {
+  try {
+    const authorization = req.headers["authorization"] || req.headers["Authorization"];
+    if (!authorization) {
+      return next(new UnauthenticatedError("No authorized to acces"));
     }
-    // console.log(token)
-    // console.log(token.split(" "))
-    const verified = jwt.verify(token,JWT_SECRET);
-    req.user = verified;
-    next()
-   } catch (error) {
-    // console.log(error)
-    throw new UnauthenticatedError("No authorized to acces")
-    // console.log(error)
-   }
+    const token = authorization.split(" ")[1];
+    if (!token) {
+      return next(new UnauthenticatedError("No authorized to acces"));
+    }
+
+    try {
+      const verified = jwt.verify(token, JWT_SECRET);
+      req.user = verified;
+      next();
+    } catch (error) {
+      next(new UnauthenticatedError("Invalid Token"));
+    }
+  } catch (error) {
+    next(error)
   }
-  module.exports = {authenticationMiddleware}
+};
+
+export default authenticationMiddleware;

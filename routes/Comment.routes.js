@@ -1,12 +1,12 @@
-const express = require('express');
-const { getPostComment, createComment, likeAddAndRemove } = require('../controller/Comment.controller');
-const { isAuth } = require('../service/com');
-const { authenticationMiddleware } = require('../middleware/auth');
+import express from 'express';
+import CommentController from '../controller/Comment.controller.js';
+import authenticationMiddleware from '../middleware/auth.js';
+import asyncWrapper from '../middleware/async.js';
 const router = express.Router();
 
 router
-.get('/:id',getPostComment)
-.post('/create',authenticationMiddleware,createComment)
-.patch('/like/:id',authenticationMiddleware,likeAddAndRemove)
+.get('/:id',asyncWrapper(CommentController.getPostComment))
+.post('/create',authenticationMiddleware,asyncWrapper(CommentController.createComment))
+.patch('/like/:id',authenticationMiddleware,asyncWrapper(CommentController.likeAddAndRemove))
 
-exports.router = router;
+export default router

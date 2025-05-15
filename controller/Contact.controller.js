@@ -1,10 +1,10 @@
-const Contact = require('../models/ContactUs.model');
+import Contact from '../models/ContactUs.model.js';
 
-exports.SendMeassage = async(req,res)=>{
+export const SendMeassage = async (req, res) => {
     try {
         const contact = await Contact.create(req.body);
-        return res.status(201).json({message:"message successfully send"});
+        return res.status(201).json({message: "message successfully send"});
     } catch (error) {
-        console.log(error)
+        console.log(error);
     }
 }

@@ -1,54 +1,56 @@
-const { use } = require("passport");
-const { Comment } = require("../models/Comment.model");
-exports.getPostComment = async (req, res,next) => {
-    const {id} = req.params
-  
-  try {
-    const comments = await Comment.find({ postId: id }).sort({
-      createdAt: -1,
-    }).limit(9).populate("userId");
-    res.status(200).json(comments);
-  } catch (error) {
-    next(error);
-  }
-};
+import CommentService from "../service/Comment.service.js";
+import { sendSuccessMessage } from "../utils/helper.js";
+export default {
+  getPostComment: async (req, res) => {
+    const result = await CommentService.getPostComment(req.params.id);
+    sendSuccessMessage(res, 200, "Fetch Post Comments successfully", result);
+  },
 
-exports.createComment = async (req, res) => {
-  try {
-    // console.log("req.body", req.body)
-    const {contente,postId} = req.body
-    const comment = new Comment({contente,postId,userId:req.user._id});
-    const doc = await comment.save();
-    // console.log("doc", doc);
-    const result = await doc.populate("userId");
-    return res.status(201).json({ comment: result });
-  } catch (error) {
-    return res.status(400).json({ error: error.message });
-  }
+  /**
+   * Handles creating a comment for a post
+   * @param {object} req - Request object
+   * @param {object} res - Response object
+   * @param {string} req.body.postId - Post ID
+   * @param {string} req.body.contente - Comment content
+   * @returns {Promise<void>}
+   */
+  createComment: async (req, res) => {
+    const data = {
+      userId: req.user._id,
+      postId: req.body.postId,
+      contente: req.body.contente,
+    };
+    const result = await CommentService.createPostComment(data);
+    sendSuccessMessage(res, 201, "Comment created successfully", result);
+  },
+
+  /**
+   * Handles liking or disliking a comment
+   * @param {object} req - Request object
+   * @param {object} res - Response object
+   * @param {string} req.params.id - Comment ID
+   * @param {boolean} req.body.isLike - Whether to like or dislike the comment
+   * @returns {Promise<void>}
+   */
+  /**
+   * Handles liking or disliking a comment
+   * @param {object} req - Request object
+   * @param {object} res - Response object
+   * @param {string} req.params.id - Comment ID
+   * @param {boolean} req.body.isLike - Whether to like or dislike the comment
+   * @returns {Promise<void>}
+   */
+  likeAddAndRemove: async (req, res) => {
+    const data = {
+      userId: req.user._id,
+      isLike: req.body.isLike,
+    };
+    const result = await CommentService.likeAndDislike(req.params.id, data);
+    sendSuccessMessage(
+      res,
+      200,
+      "Comment Liked Or Dislike successfully",
+      result
+    );
+  },
 };
-exports.likeAddAndRemove=async(req,res)=>{
-  try{
-    const {id}=req.params
-    // const {userId}=req.user
-    console.log("id",id)
-    const comment=await Comment.findOne({_id:id})
-    const user=comment.likes.indexOf(req.user._id)
-    // console.log("comment",comment)
-    // console.log("comment.likes",req.user)
-    if(user==-1){
-      comment.likes.push(req.user._id)
-      comment.numberOfLikes=comment.numberOfLikes+1
-      comment.save()
-      console.log(comment)
-      res.status(200).json({numberOfLikes:comment.numberOfLikes,likes:comment.likes})
-    }
-    else{
-        comment.likes.splice(user._id,1)
-        comment.numberOfLikes=comment.numberOfLikes-1
-        comment.save()
-        res.status(200).json({numberOfLikes:comment.numberOfLikes,likes:comment.likes})
-      }
-      }catch(error){
-        return res.status(400).json({error:error.message})
-      }
-}

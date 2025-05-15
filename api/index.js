@@ -1,76 +1,56 @@
-const express = require("express");
-// require('express-async-errors')
-require("dotenv").config();
+import express from "express";
+import dotenv from "dotenv";
+import authRouter from "../routes/Auth.routes.js";
+import { errorHandlerMiddleware } from "../middleware/error-handler.js";
+import userRouter from "../routes/User.routes.js";
+import contactRouter from "../routes/Contact.routes.js";
+import commentRouter from "../routes/Comment.routes.js";
+import blogRouter from "../routes/Bloge.routes.js";
+import MongoStore from "connect-mongo";
+import session from "express-session";
+import serverless from "serverless-http";
+import cors from "cors";
+import"../db/connectdb.js";
+
+dotenv.config();
 const app = express();
-const authRouter = require("../routes/Auth.routes");
-const { errorHandlerMiddleware } = require("../middleware/error-handler.js");
-const userRouter = require("../routes/User.routes");
-const contactRouter = require("../routes/Contact.routes");
-const commentRouter = require("../routes/Comment.routes");
-const blogRouter = require("../routes/Bloge.routes");
-const MongoStore = require("connect-mongo");
-const session = require("express-session");
-const serverless = require("serverless-http");
-const cors = require("cors");
 
-const { connectDb } = require("../db/connectdb");
-
-// TODO: cors setup
-var whitelist = ['https://warlike-ring.surge.sh',"*"];
-var corsOptions = {
-  origin: function(origin, callback){
-    var originIsWhitelisted = whitelist.indexOf(origin) !== -1;
-    callback(null, originIsWhitelisted);
-  }
-};
-// const corsOptions = {
-//   origin: "https://warlike-ring.surge.sh", // Allow only this origin
-//   methods: ["GET", "POST", "PUT", "DELETE","PATCH"], // Allowed methods
-//   credentials: true, // Allow cookies and headers like Authorization
-// };
+// CORS setup
 app.use(cors({
   origin: ["https://my-bloge.netlify.app", "http://localhost:5173"]
 }));
-// app.options("*", cors(corsOptions));
-// app.use(
-//   cors({
-//     origin: "http://localhost:5173", // Replace with your frontend URL
-//     methods: ["GET", "POST", "PUT", "DELETE"], // Allow specific HTTP methods
-//     credentials: true, // Allow cookies if required
-//   })
-// );
+
+// Session configuration
 app.use(
   session({
-    secret: process.env.SESSION_SECRET || "secret", // Use a secure secret in production
+    secret: process.env.SESSION_SECRET || "secret",
     resave: false,
     saveUninitialized: false,
     store: MongoStore.create({
-      mongoUrl: process.env.MONGODB_URL, // MongoDB connection string
-      ttl: 14 * 24 * 60 * 60, // Sessions expire after 14 days
+      mongoUrl: process.env.MONGODB_URL,
+      ttl: 14 * 24 * 60 * 60,
     }),
     cookie: {
-      maxAge: 14 * 24 * 60 * 60 * 1000, // Cookie expiration time
-      secure: process.env.NODE_ENV === "production", // Set this to true if using HTTPS
+      maxAge: 14 * 24 * 60 * 60 * 1000,
+      secure: process.env.NODE_ENV === "production",
       httpOnly: true,
     },
   })
 );
 
-// TODO: body parser
+// Body parser
 app.use(express.json());
 
-app.get("/", (req, res) => res.send("Hello world"));
+// Routes
+// app.get("/", (req, res) => res.send("Hello world"));
 app.use("/auth", authRouter.router);
 app.use("/user", userRouter.router);
-// app.use("/check", isAuth(), checkRouter.router);
 app.use("/bloge", blogRouter.router);
 app.use("/contact", contactRouter.router);
 app.use("/comment", commentRouter.router);
 app.use(errorHandlerMiddleware);
-// const PORT = process.env.PORT;
-// app.listen(PORT, () => {
-//   console.log(`Server is running on port ${PORT}`);
-// });
-module.exports = app;
-module.exports.handler = serverless(app);
+
+// Connect to database and export
 connectDb();
+export default app;
+export const handler = serverless(app);

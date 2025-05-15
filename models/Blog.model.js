@@ -1,6 +1,6 @@
-const mongoose = require("mongoose");
-
-const userSchema = new mongoose.Schema(
+import mongoose from "mongoose";
+import { paginate } from "./plugin/paginate.plugin.js";
+const blogeSchema = new mongoose.Schema(
   {
     title: { type: String, required: true },
     description: { type: String, required: true },
@@ -13,6 +13,7 @@ const userSchema = new mongoose.Schema(
   }
 );
 
-const Blog = mongoose.model("Blog", userSchema);
+blogeSchema.plugin(paginate);
+const Blog = mongoose.model("Blog", blogeSchema);
 
-module.exports = Blog;
+export default Blog;

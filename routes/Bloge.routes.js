@@ -1,15 +1,38 @@
-const express = require("express");
-const { createBlog, featchBloges, featchBlogeById, deletBlogeById, updateBlogeById } = require("../controller/Bloge.controller");
-const { authenticationMiddleware } = require("../middleware/auth");
-const { upload } = require("../middleware/multer.middlewares");
-const { ImageUpload } = require("../controller/uploadImage.controller");
+import express from "express";
+// import {
+//   createBlog,
+//   featchBloges,
+//   featchBlogeById,
+//   deletBlogeById,
+//   updateBlogeById
+// } from "../controller/Bloge.controller.js";
+import asyncWrapper from "../middleware/async.js";
+import authenticationMiddleware from "../middleware/auth.js";
+import { upload } from "../middleware/multer.middlewares.js";
+// import { ImageUpload } from "../controller/uploadImage.controller.js";
+import BlogeController from "../controller/Bloge.controller.js";
+
 const router = express.Router();
 
-router.post("/create",authenticationMiddleware,createBlog)
-.post('/upload',upload.single('image'),ImageUpload)
-.get('/all',featchBloges)
-.get('/:id',featchBlogeById)
-.patch('/:id',authenticationMiddleware,updateBlogeById)
-.delete('/:id',authenticationMiddleware,deletBlogeById)
+router
+  .post(
+    "/create",
+    upload.single("image"),
+    authenticationMiddleware,
+    asyncWrapper(BlogeController.createBlog)
+  )
+  // .post('/upload', upload.single('image'), ImageUpload)
+  .get("/all", asyncWrapper(BlogeController.featchBloges))
+  .get("/:id", asyncWrapper(BlogeController.featchBlogeById))
+  .patch(
+    "/:id",
+    authenticationMiddleware,
+    asyncWrapper(BlogeController.updateBlogeById)
+  )
+  .delete(
+    "/:id",
+    authenticationMiddleware,
+    asyncWrapper(BlogeController.deleteBlogeById)
+  );
 
-exports.router = router;
+export default router;

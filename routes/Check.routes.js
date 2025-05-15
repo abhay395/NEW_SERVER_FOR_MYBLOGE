@@ -1,10 +1,10 @@
-const express = require("express");
-const { checkAuth } = require("../controller/Auth.controller");
+// const express = require("express");
+// const { checkAuth } = require("../controller/Auth.controller");
 
 
-const router = express.Router()
+// const router = express.Router()
 
-router
-.get('/myUser',checkAuth)
+// router
+// .get('/myUser',checkAuth)
 
-exports.router = router;
+// exports.router = router;
