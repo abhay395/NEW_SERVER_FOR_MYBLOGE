@@ -1,30 +1,39 @@
-const cloudinary = require("../config/cloudinaryConfig");
-const fs = require("fs");
+import cloudinary from "../config/cloudinaryConfig.js";
+import fs from "fs";
+import ApiError from "./ApiError.js";
 
-const uploadOncloudinary = async (req,type) => {
+const uploadToCloudinary = async ({
+  file,
+  folder = "uploads",
+  resource_type = "auto",
+}) => {
   try {
+    if (!file) {
+      throw new Error("No file provided");
+    }
     const result = await new Promise((resolve, reject) => {
       // Check if the file is an image
-      const mimeType = req.file.mimetype;
-      if (!mimeType.startsWith(type)) {
-         reject({error:`Only ${type} uploads are allowed.`});
-      }
-    
-      cloudinary.uploader.upload_stream({ resource_type: "image" }, (error, result) => {
-        if (error) {
-          reject({error:"Cloudinary upload failed"});
-        } else {
-          // console.log(result.secure_url);
-          resolve(result);
-        }
-      }).end(req.file.buffer);
+      const mimeType = file.mimetype;
+      // if (!mimeType.startsWith(type)) {
+      //   reject({ error: `Only ${type} uploads are allowed.` });
+      // }
+
+      cloudinary.uploader
+        .upload_stream({ resource_type: "image" }, (error, result) => {
+          if (error) {
+            reject({ error: "Cloudinary upload failed" });
+          } else {
+            resolve(result);
+          }
+        })
+        .end(file.buffer);
     });
-    // console.log(result);
+
     return result;
   } catch (error) {
-    return error
-   
-    // res.status(500).json({ error: "Internal Server Error" });
+    console.log(error);
+    throw new ApiError(400, "Cloudinary upload failed: " + error.message);
   }
 };
-exports.uploadOncloudinary = uploadOncloudinary;
+
+export default uploadToCloudinary;

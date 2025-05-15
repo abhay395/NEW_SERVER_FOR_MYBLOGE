@@ -1,18 +1,14 @@
-const express = require("express");
-const {
-  createUser,
-  LoginUser,
-  logout,
-  checkUser,
-} = require("../controller/Auth.controller");
-// const { getGoogleAuthURL, googleCallback } = require("../controllers/auth.controller.js");
-const { authenticationMiddleware } = require('../middleware/auth');
+import express from "express";
+import AuthController from "../controller/Auth.controller.js";
+// import { getGoogleAuthURL, googleCallback } from "../controllers/auth.controller.js";
+import authenticationMiddleware from '../middleware/auth.js';
+import asyncWrapper from "../middleware/async.js";
 const router = express.Router();
 
 router
-  .post("/signup", createUser)
-  .post("/login",LoginUser)
-  .get("/check",authenticationMiddleware, checkUser)
-  .get("/logout",authenticationMiddleware ,logout)
+  .post("/signup", asyncWrapper(AuthController.createUser))
+  .post("/login", asyncWrapper(AuthController.LoginUser))
+  // .get("/check",authenticationMiddleware)
+  .get("/logout", authenticationMiddleware, asyncWrapper(AuthController.LogoutUser))
 
-exports.router = router;
+export default router

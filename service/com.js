@@ -1,10 +1,10 @@
-const passport = require("passport");
+import passport from "passport";
 
-exports.cookieExtractor = function(req) {
+export const cookieExtractor = (req) => {
     if (req && req.cookies) {
-       return token =req.cookies.jwt
+       return req.cookies.jwt
     }
 };
-exports.isAuth = (req, res, next) => {
+export const isAuth = (req, res, next) => {
     return passport.authenticate('jwt')
    };
