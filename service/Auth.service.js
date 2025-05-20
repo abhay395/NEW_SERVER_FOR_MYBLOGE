@@ -1,7 +1,7 @@
 import User from "../models/User.model.js";
 import { createToken } from "../utils/helper.js";
 import ApiError from "../utils/ApiError.js";
-import UnauthenticatedError from "../errors/unauthenticated.js";
+// import UnauthenticatedError from "../errors/unauthenticated.js";
 import bcrypt from "bcryptjs/dist/bcrypt.js";
 export default {
     createUser: async (reqBody) => {
@@ -23,7 +23,7 @@ export default {
             }
             const passwordCheck = await bcrypt.compare(password, user.password);
             if (!passwordCheck) {
-                throw new UnauthenticatedError("Invalid credentials");
+                throw new ApiError(401, "Invalid credentials");
             }
             await User.findByIdAndUpdate(user._id, { isActive: true });
             const token = createToken(user);
