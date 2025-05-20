@@ -1,6 +1,6 @@
 import { StatusCodes } from "http-status-codes";
-
-class UnauthenticatedError extends Error {
+import ApiError from "../utils/ApiError.js";
+class UnauthenticatedError extends ApiError {
   constructor(message = "Not authorized to access this route") {
     super(message);
     this.statusCode = StatusCodes.UNAUTHORIZED;

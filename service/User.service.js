@@ -11,10 +11,10 @@ export default {
             throw error;
         }
     },
-    featchUserBloge:async (filter, option)=>{
+    featchUserBloge:async (userId)=>{
         try {
-            const result = await Blog.paginate(filter, option);
-            return result;
+            const result = await Blog.find({userId}).populate('userId', 'name email image').select('-password');
+            return {results:result};
         } catch (error) {
             throw error;
         }

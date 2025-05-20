@@ -14,9 +14,9 @@ export default {
     sendSuccessMessage(res, 200, "User fetched successfully", result);
   },
   featchUserBloge: async (req, res) => {
-    const filter = pick(req.query, ["name", "isActive", "onlyExpired"]);
-    const options = pick(req.query, ["sortBy", "limit", "page", "populate"]);
-    const result = await UserService.featchUserBloge(filter, options);
+    // const filter = pick(req.query, ["name", "isActive", "onlyExpired"]);
+    // const options = pick(req.query, ["sortBy", "limit", "page", "populate"]);
+    const result = await UserService.featchUserBloge(req.user._id);
     sendSuccessMessage(res, 200, "User Bloge fetched successfully", result);
   },
   updateUser: async (req, res) => {
